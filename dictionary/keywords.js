@@ -10,7 +10,8 @@ module.exports = {
   "Bom dia": "Bom dia ☀ vamos jogar juntos?",
   "Boa noite": "Boa noite!",
 
-   "onde está o ip?": "O ip do servidor está na barra de canais disponivel o dia todo para membros. Não achou? Chame um staff para te ajudar!", 
+  
+   "onde esta o ip?": "O ip do servidor está na barra de canais disponivel o dia todo para membros. Não achou? Chame um staff para te ajudar!", 
    "cade o ip do serve": "O ip do servidor está na barra de canais disponivel o dia todo para membros. Não achou? Chame um staff para te ajudar!", 
    "cade o ip": "O ip do servidor está na barra de canais disponivel o dia todo para membros. Não achou? Chame um staff para te ajudar!", 
    "onde vejo o ip": "O ip do servidor está na barra de canais disponivel o dia todo para membros. Não achou? Chame um staff para te ajudar!", 
