@@ -9,15 +9,18 @@ function normalize(text) {
     .trim();
 }
 
-const phrases = Object.keys(keywords).map(phrase => ({ phrase }));
+const phrases = Object.keys(keywords).map(phrase => ({
+  phrase,
+  normalized: normalize(phrase)
+}));
 
 const fuse = new Fuse(phrases, {
-  keys: ['phrase'],
+  keys: ['normalized'],
   includeScore: true,
-  threshold: 0.3 // 😀 quanto menor mais exato (0.3 é um bom equilíbrio)
+  threshold: 0.4 
 });
 
-function handleMessage(message) { //isso ignora tudo que vem de outro bot
+function handleMessage(message) {
   if (message.author.bot) return;
 
   const content = normalize(message.content);
@@ -25,10 +28,13 @@ function handleMessage(message) { //isso ignora tudo que vem de outro bot
   const result = fuse.search(content);
 
   if (result.length > 0) {
-    const bestMatch = result[0].item.phrase;
-    const response = keywords[bestMatch];
-    return message.reply(response);
+    const bestMatch = result[0];
+    if (bestMatch.score <= 0.4) {
+      const response = keywords[bestMatch.item.phrase];
+      return message.reply(response);
+    }
   }
+
 }
 
 module.exports = handleMessage;
