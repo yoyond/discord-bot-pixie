@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const learnedFile = path.join(__dirname, '../dictionary/learned.json');
-const keywords = require('../dictionary/keywords');
+const keywords = require('../../dictionary/keywords');
 
 module.exports = {
   name: 'messageCreate',
