@@ -1,23 +1,30 @@
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const fs = require('fs');
 require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
-const handleMessage = require('./events/messageHandler');
-const aprovarCommand = require('./events/messageCreate/aprovar');  
 
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
+    GatewayIntentBits.MessageContent,
+  ],
 });
+
+client.commands = new Collection();
+
+// Carregar comandos
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.data.name, command);
+}
+
+// Handlers
+client.on('interactionCreate', interaction => require('./handlers/interactionHandler')(interaction, client));
+client.on('messageCreate', message => require('./handlers/keywordResponder')(message, client));
 
 client.once('ready', () => {
-  console.log(`Bot online como ${client.user.tag}`);
-});
-
-client.on('messageCreate', (message) => {
-  aprovarCommand.execute(message);
-  handleMessage(message); 
+  console.log(`✅ Bot online como ${client.user.tag}`);
 });
 
 client.login(process.env.TOKEN);
