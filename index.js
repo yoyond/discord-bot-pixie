@@ -10,6 +10,8 @@ const client = new Client({
   ],
 });
 
+client.tempAprData = new Map();
+
 client.commands = new Collection();
 
 // Carregar comandos
