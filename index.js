@@ -15,15 +15,16 @@ client.tempAprData = new Map();
 client.commands = new Collection();
 
 // Carregar comandos
+
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
+  const command = require(`./src/commands/${file}`);
   client.commands.set(command.data.name, command);
 }
 
 // Handlers
-client.on('interactionCreate', interaction => require('./handlers/interactionHandler')(interaction, client));
-client.on('messageCreate', message => require('./handlers/keywordResponder')(message, client));
+client.on('interactionCreate', interaction => require('./src/handlers/interactionHandler')(interaction, client));
+client.on('messageCreate', message => require('./src/handlers/keywordResponder')(message, client));
 
 client.once('ready', () => {
   console.log(`✅ Bot online como ${client.user.tag}`);
