@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const handleMessage = require('./events/messageHandler');
+const aprovarCommand = require('./events/aprovar');  
 
 const client = new Client({
   intents: [
