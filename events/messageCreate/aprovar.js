@@ -1,10 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const learnedFile = path.join(__dirname, '../dictionary/learned.json');
+const learnedFile = path.join(__dirname, '../../dictionary/learned.json');
 const keywords = require('../../dictionary/keywords');
 
 module.exports = {
-  name: 'messageCreate',
   async execute(message) {
     if (!message.content.startsWith('/aprovar')) return;
     if (!message.member.permissions.has('ADMINISTRATOR')) return;
