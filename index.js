@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const handleMessage = require('./events/messageHandler');
-const aprovarCommand = require('./events/aprovar');  
+const aprovarCommand = require('./events/messageCrate/aprovar');  
 
 const client = new Client({
   intents: [
@@ -13,6 +13,13 @@ const client = new Client({
 
 client.once('ready', () => {
   console.log(`Bot online como ${client.user.tag}`);
+});
+
+
+
+client.on('messageCreate', (message) => {
+  aprovarCommand.execute(message);
+  handleMessage(message);
 });
 
 client.on('messageCreate', handleMessage);
