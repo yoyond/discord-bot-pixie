@@ -1,4 +1,4 @@
-// src/handlers/keywordResponder.js
+
 const fs = require('fs');
 const learnedPath = './src/data/learned.json';
 
