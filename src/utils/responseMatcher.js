@@ -1,5 +1,17 @@
 const Fuse = require('fuse.js');
-const learnedData = require('../../learned.json');
+const path = require('path');
+const fs = require('fs');
+
+const learnedPath = path.join(process.cwd(), 'learned.json');
+
+function loadLearnedData() {
+  try {
+    return JSON.parse(fs.readFileSync(learnedPath));
+  } catch (error) {
+    console.error('Erro ao carregar learned.json:', error);
+    return {};
+  }
+}
 
 function normalizeText(text) {
   return text
@@ -18,14 +30,23 @@ const fuseOptions = {
   distance: 100
 };
 
-const questions = Object.values(learnedData).flatMap(category => 
-  category.map(item => ({
-    ...item,
-    normalizedQuestion: normalizeText(item.question)
-  })
-));
+let fuse;
+let questions = [];
 
-const fuse = new Fuse(questions, fuseOptions);
+function refreshLearnedData() {
+  const learnedData = loadLearnedData();
+  questions = Object.values(learnedData).flatMap(category => 
+    category.map(item => ({
+      ...item,
+      normalizedQuestion: normalizeText(item.question)
+    })
+  ));
+  
+  fuse = new Fuse(questions, fuseOptions);
+}
+
+// Carrega os dados inicialmente
+refreshLearnedData();
 
 function findBestMatch(message) {
   const normalized = normalizeText(message);
@@ -33,8 +54,7 @@ function findBestMatch(message) {
   
   if (results.length === 0) return null;
   
-  // Retorna apenas se o score for bom o suficiente
   return results[0].score < 0.4 ? results[0].item : null;
 }
 
-module.exports = { findBestMatch };
+module.exports = { findBestMatch, refreshLearnedData };
