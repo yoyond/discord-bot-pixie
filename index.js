@@ -14,6 +14,9 @@ client.tempAprData = new Map();
 
 client.commands = new Collection();
 
+console.log('Caminho do learned.json:', path.join(process.cwd(), 'learned.json'));
+console.log('Conteúdo inicial:', require('./learned.json'));
+
 // Carregar comandos
 
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
