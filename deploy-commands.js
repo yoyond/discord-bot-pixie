@@ -1,4 +1,4 @@
-const GUILD_ID = '123456789012345678'; // coloque o ID do seu servidor
+const GUILD_ID = '1238148599301406790';
 
 (async () => {
   try {
