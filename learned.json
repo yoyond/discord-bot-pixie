@@ -2,7 +2,7 @@
   "entrada_no_servidor": [
     {
       "question": "como faço para entrar no servidor?",
-      "answer": "Para jogar, acesse o canal <#1365853461442465792> e siga as instruções! Depois de liberado, você receberá acesso completo 😊",
+      "answer": "Para jogar, acesse o canal <#1365842315201220708> e siga as instruções! Depois de liberado, você receberá acesso completo 😊",
       "author": "Sistema",
       "context": ["canal_nao_membros", "canal_membros"],
       "aliases": [
@@ -12,7 +12,7 @@
     },
     {
       "question": "onde está o ip?",
-      "answer": "Todas as informações de conexão estão disponíveis em <#1365853461442465792>! Lá você encontra o passo a passo completo 📋",
+      "answer": "O ip está aqui <#1365853461442465792>! é só copiar e colocar no seu mine! divirta-se e bem vindo ao Cyber Pixel!",
       "author": "Sistema",
       "context": ["canal_nao_membros"],
             "aliases": [
@@ -25,7 +25,7 @@
     },
     {
       "question": "porta do servidor",
-      "answer": "A porta padrão é a 25565, mas confira sempre em <#1365853461442465792> caso tenhamos atualizações! 🔄",
+      "answer": "A porta é: <#1365853580929794058>🔄",
       "author": "Sistema",
       "context": ["canal_membros"]
     }
@@ -44,7 +44,7 @@
     },
     {
       "question": "como faz a whitelist",
-      "answer": "Você deve clicar em: <#1365842315201220708> responder algumas questões a após finalizar, é só aguardar! Em breve todos os canais liberados para voce!",
+      "answer": "Você deve clicar em: <#1365842315201220708> responder algumas questões e após finalizar, é só aguardar! Em breve todos os canais liberados para voce!",
       "aliases": [
         "como entro no sv",
         "cadê a wl",
@@ -69,7 +69,7 @@
     },
     {
       "question": "pixie ajuda",
-      "answer": "Claro! Posso te ajudar com:\n• Acesso ao servidor: <#1365853461442465792>\n• Whitelist: <#1365842315201220708>\n• Dúvidas gerais: <#1365842315201220999>",
+      "answer": "Claro! Posso te ajudar com:\n• Acesso ao servidor: <#1365853461442465792>\n• Whitelist: <#1365842315201220708>\n• Dúvidas gerais: <#1365828284490977321>",
       "author": "Sistema"
     }
   ],
@@ -79,7 +79,10 @@
       "answer": "Queria mesmo! ⛏️ Mas meu lugar é aqui ajudando vocês. Quem sabe um dia",
       "author": "Sistema",
       "frequency": 0.1,
-      "aliases":["pixie vamos jogar juntos", "pixie vamos para minha casa", "pixie namora comigo", "pixie joga comigo"]
+      "aliases":["pixie vamos jogar juntos",
+       "pixie vamos para minha casa",
+        "pixie namora comigo", 
+        "pixie joga comigo"]
     }
   ]
 }
