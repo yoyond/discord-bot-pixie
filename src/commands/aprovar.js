@@ -1,71 +1,69 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const suggestCategory = require('../utils/suggestCategory'); // função aprimorada
 
-const filePath = path.join(__dirname, '../data/learned.json');
+const learnedPath = path.join(__dirname, '../../learned.json');
+const learnedData = require(learnedPath);
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('aprovar')
-    .setDescription('Aprova uma nova frase e resposta para o bot.')
+    .setDescription('Aprova uma nova resposta para o bot')
     .addStringOption(option =>
-      option.setName('frase')
-        .setDescription('Frase que o bot deve reconhecer')
+      option.setName('pergunta')
+        .setDescription('A pergunta que o bot deve responder')
         .setRequired(true))
     .addStringOption(option =>
       option.setName('resposta')
-        .setDescription('Resposta que o bot deve dar')
+        .setDescription('A resposta que o bot deve dar')
         .setRequired(true))
     .addStringOption(option =>
       option.setName('categoria')
-        .setDescription('Categoria da frase')
-        .setAutocomplete(true) // Habilita sugestões
-        .setRequired(false)
-    ),
-
-  async autocomplete(interaction) {
-    const focusedValue = interaction.options.getFocused();
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const data = JSON.parse(raw);
-
-    const categorias = Object.keys(data.categorias || {});
-    const filtered = categorias.filter(c => c.startsWith(focusedValue));
-    await interaction.respond(
-      filtered.map(c => ({ name: c, value: c }))
-    );
-  },
-
+        .setDescription('Categoria para a pergunta (use /categorias para ver as existentes)')
+        .setRequired(false)),
+        
   async execute(interaction) {
-    const frase = interaction.options.getString('frase');
-    const resposta = interaction.options.getString('resposta');
-    let categoria = interaction.options.getString('categoria');
-
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const data = JSON.parse(raw);
-
-    if (!categoria) {
-      // Sugere automaticamente
-      categoria = suggestCategory(frase, data.categorias);
+    if (!interaction.member.permissions.has('ADMINISTRATOR')) {
+      return interaction.reply({ content: '❌ Você não tem permissão para usar este comando.', ephemeral: true });
     }
 
-    if (!categoria) {
-      return await interaction.reply({
-        content: `❌ Não consegui sugerir uma categoria. Use o campo "categoria" manualmente.`,
+    const question = interaction.options.getString('pergunta');
+    const answer = interaction.options.getString('resposta');
+    let category = interaction.options.getString('categoria');
+
+    if (!category) {
+      // Se não houver categorias, force a criação de uma nova
+      if (Object.keys(learnedData).length === 0) {
+        return interaction.reply({
+          content: 'Não há categorias existentes. Por favor, use o comando novamente especificando uma nova categoria.',
+          ephemeral: true
+        });
+      }
+      
+      // Mostrar categorias existentes
+      return interaction.reply({
+        content: `Categorias existentes: ${Object.keys(learnedData).join(', ')}\nUse o comando novamente especificando uma categoria ou uma nova.`,
         ephemeral: true
       });
     }
 
-    if (!data.categorias[categoria]) {
-      data.categorias[categoria] = [];
+    // Normaliza a categoria
+    category = category.toLowerCase().trim();
+
+    // Inicializa a categoria se não existir
+    if (!learnedData[category]) {
+      learnedData[category] = [];
     }
 
-    data.categorias[categoria].push({ frase, resposta });
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
-
-    await interaction.reply({
-      content: `✅ Frase aprovada e adicionada à categoria \`${categoria}\`.`,
-      ephemeral: true
+    // Adiciona a nova Q&A
+    learnedData[category].push({
+      question: question,
+      answer: answer
     });
+
+    // Salva no arquivo
+    fs.writeFileSync(learnedPath, JSON.stringify(learnedData, null, 2));
+
+    await interaction.reply(`✅ Nova resposta adicionada na categoria "${category}"!`);
   }
 };

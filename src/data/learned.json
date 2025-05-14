@@ -1,73 +1,244 @@
 {
   "categorias": {
     "cumprimentos": [
-      { "frase": "oi", "resposta": "Olá! Como posso ajudar você? 👋" },
-      { "frase": "oi", "resposta": "Oii! Como posso ajudar? 🤖🤖" },
-      { "frase": "salve", "resposta": "Salve Salve! 😁" },
-      { "frase": "bom dia", "resposta": "Bom dia ☀ vamos jogar juntos?" },
-      { "frase": "boa tarde", "resposta": "Boa tardeee ☕" },
-      { "frase": "boa noite", "resposta": "Boa noite!" },
-      { "frase": "bom dia pixie", "resposta": "Oi Pixie aqui ☀ Como posso ajudar?" },
-      { "frase": "olá", "resposta": "Olá! Como posso ajudar você? 👋" },
-      { "frase": "ola", "resposta": "Olá! Como posso ajudar você? 👋" }
+      {
+        "frase": "oi",
+        "resposta": "Olá! Como posso ajudar você? 👋"
+      },
+      {
+        "frase": "oi",
+        "resposta": "Oii! Como posso ajudar? 🤖🤖"
+      },
+      {
+        "frase": "salve",
+        "resposta": "Salve Salve! 😁"
+      },
+      {
+        "frase": "bom dia",
+        "resposta": "Bom dia ☀ vamos jogar juntos?"
+      },
+      {
+        "frase": "boa tarde",
+        "resposta": "Boa tardeee ☕"
+      },
+      {
+        "frase": "boa noite",
+        "resposta": "Boa noite!"
+      },
+      {
+        "frase": "bom dia pixie",
+        "resposta": "Oi Pixie aqui ☀ Como posso ajudar?"
+      },
+      {
+        "frase": "olá",
+        "resposta": "Olá! Como posso ajudar você? 👋"
+      },
+      {
+        "frase": "ola",
+        "resposta": "Olá! Como posso ajudar você? 👋"
+      },
+      {
+        "frase": "olaaa",
+        "resposta": "oieeee haha"
+      }
     ],
     "despedidas": [
-      { "frase": "tchau", "resposta": "Até mais! 👋" },
-      { "frase": "bye", "resposta": "bye bye! 👋" },
-      { "frase": "até", "resposta": "Até mais! 👋" }
+      {
+        "frase": "tchau",
+        "resposta": "Até mais! 👋"
+      },
+      {
+        "frase": "bye",
+        "resposta": "bye bye! 👋"
+      },
+      {
+        "frase": "até",
+        "resposta": "Até mais! 👋"
+      }
     ],
     "identidade_bot": [
-      { "frase": "quem é você?", "resposta": "Meu nome é Pixie! sou a assistente virtual aqui do servidor Cyber Pixel! 🌎 Todos os dias eu aprendo mais sobre como posso ajudar você e responder suas dúvidas com mais precisão." },
-      { "frase": "pixie", "resposta": "Ei... eu ouvi meu nome! 🥰 Você me chamou? quero muito ajudar" },
-      { "frase": "me ajuda pixie", "resposta": "Claro!! No que posso ajudar você? Você pode escrever sua dúvida como por exemplo: 'onde pego o ip do serve?' " }
+      {
+        "frase": "quem é você?",
+        "resposta": "Meu nome é Pixie! sou a assistente virtual aqui do servidor Cyber Pixel! 🌎 Todos os dias eu aprendo mais sobre como posso ajudar você e responder suas dúvidas com mais precisão."
+      },
+      {
+        "frase": "pixie",
+        "resposta": "Ei... eu ouvi meu nome! 🥰 Você me chamou? quero muito ajudar"
+      },
+      {
+        "frase": "me ajuda pixie",
+        "resposta": "Claro!! No que posso ajudar você? Você pode escrever sua dúvida como por exemplo: 'onde pego o ip do serve?' "
+      }
     ],
     "agradecimentos": [
-      { "frase": "obrigado", "resposta": "De nada! haha 😊" }
+      {
+        "frase": "obrigado",
+        "resposta": "De nada! haha 😊"
+      }
     ],
     "ip": [
-      { "frase": "onde esta o ip?", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "cade o ip", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "cade o ip do serve", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "onde vejo o ip", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "onde pego o ip do serve", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "como acho o ip", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "onde acho o ip", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "onde fica ip", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" },
-      { "frase": "ip", "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!" }
+      {
+        "frase": "onde esta o ip?",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "cade o ip",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "cade o ip do serve",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "onde vejo o ip",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "onde pego o ip do serve",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "como acho o ip",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "onde acho o ip",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "onde fica ip",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      },
+      {
+        "frase": "ip",
+        "resposta": "O ip do servidor está aqui: <#1365853461442465792> na barra de canais :D Não achou? Chame um staff para te ajudar!"
+      }
     ],
     "entrar_no_server": [
-      { "frase": "como entra", "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍" },
-      { "frase": "como entra no serve", "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍" },
-      { "frase": "como entra no server", "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍" },
-      { "frase": "como faço para entra no serve", "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍" },
-      { "frase": "não consigo entrar no servidor", "resposta": "Poxa vida 🤔 talvez seja necessário chamar um staff para te ajudar!" },
-      { "frase": "bom dia, como entro no server?", "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍" },
-      { "frase": "já fiz a wl, como entro no server", "resposta": "Poxa vida 🤔 talvez seja necessário chamar um staff para te ajudar!" }
+      {
+        "frase": "como entra",
+        "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍"
+      },
+      {
+        "frase": "como entra no serve",
+        "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍"
+      },
+      {
+        "frase": "como entra no server",
+        "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍"
+      },
+      {
+        "frase": "como faço para entra no serve",
+        "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍"
+      },
+      {
+        "frase": "não consigo entrar no servidor",
+        "resposta": "Poxa vida 🤔 talvez seja necessário chamar um staff para te ajudar!"
+      },
+      {
+        "frase": "bom dia, como entro no server?",
+        "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍"
+      },
+      {
+        "frase": "já fiz a wl, como entro no server",
+        "resposta": "Poxa vida 🤔 talvez seja necessário chamar um staff para te ajudar!"
+      },
+      {
+        "frase": "mano como faço para entrar no serve",
+        "resposta": "Para entrar no servidor você deve fazer a <#1365842315201220708> caso ainda não tenha feito. Posso te ajudar em algo mais? 😍"
+      },
+      {
+        "frase": "mano me ajuda a entrar no serve",
+        "resposta": "Claro! Para entrar no server vc deve fazer a <#1365842315201220708>"
+      }
     ],
     "whitelist": [
-      { "frase": "ja fiz whitelist", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" },
-      { "frase": "whitelist feita!", "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3" },
-      { "frase": "fiz whitelist", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" },
-      { "frase": "WL feita", "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3" },
-      { "frase": "fiz wl", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" },
-      { "frase": "ja fiz wl", "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3" },
-      { "frase": "ja fiz wt", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" },
-      { "frase": "fiz wt", "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3" },
-      { "frase": "feita wt", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" },
-      { "frase": "ja fiz a wt", "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3" },
-      { "frase": "ja fiz a wt, como faço para entrar no servidor", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" },
-      { "frase": "ja fiz a white list, como faço para entrar no server", "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3" },
-      { "frase": "ja fiz a white list", "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳" }
+      {
+        "frase": "ja fiz whitelist",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      },
+      {
+        "frase": "whitelist feita!",
+        "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3"
+      },
+      {
+        "frase": "fiz whitelist",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      },
+      {
+        "frase": "WL feita",
+        "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3"
+      },
+      {
+        "frase": "fiz wl",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      },
+      {
+        "frase": "ja fiz wl",
+        "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3"
+      },
+      {
+        "frase": "ja fiz wt",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      },
+      {
+        "frase": "fiz wt",
+        "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3"
+      },
+      {
+        "frase": "feita wt",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      },
+      {
+        "frase": "ja fiz a wt",
+        "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3"
+      },
+      {
+        "frase": "ja fiz a wt, como faço para entrar no servidor",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      },
+      {
+        "frase": "ja fiz a white list, como faço para entrar no server",
+        "resposta": "Se você já fez a whitelist agora é só aguardar sua liberação! <3"
+      },
+      {
+        "frase": "ja fiz a white list",
+        "resposta": "Que bom! Agora é só aguardar, dentro de alguns minutos você será oficialmente membro! 🥳"
+      }
     ],
     "clã": [
-      { "frase": "como faço para entrar em um cla", "resposta": "Os clãs ativos registram suas vagas no canal <#1370449570500317264> :D você deve visitar o canal, escolher um clã e comentar abaixo! Boa sorteeee." },
-      { "frase": "algum cla tem vagas", "resposta": "Aposto que sim! visite o canal <#1370449570500317264> para checar" },
-      { "frase": "estou procurando um cla", "resposta": "😁 Tenho uma ótima notícia para você: os clãs também estão te procurando! Visite o canal <#1370449570500317264> !" },
-      { "frase": "como cria um cla", "resposta": "Você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D" },
-      { "frase": "como faço para cria um cla", "resposta": "Simmmm <3 <3 você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D" },
-      { "frase": "onde cria um cla", "resposta": "Você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D" },
-      { "frase": "onde cria cla", "resposta": "Você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D" },
-      { "frase": "posso cria cla", "resposta": "Simmmm <3 <3 você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D" }
+      {
+        "frase": "como faço para entrar em um cla",
+        "resposta": "Os clãs ativos registram suas vagas no canal <#1370449570500317264> :D você deve visitar o canal, escolher um clã e comentar abaixo! Boa sorteeee."
+      },
+      {
+        "frase": "algum cla tem vagas",
+        "resposta": "Aposto que sim! visite o canal <#1370449570500317264> para checar"
+      },
+      {
+        "frase": "estou procurando um cla",
+        "resposta": "😁 Tenho uma ótima notícia para você: os clãs também estão te procurando! Visite o canal <#1370449570500317264> !"
+      },
+      {
+        "frase": "como cria um cla",
+        "resposta": "Você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D"
+      },
+      {
+        "frase": "como faço para cria um cla",
+        "resposta": "Simmmm <3 <3 você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D"
+      },
+      {
+        "frase": "onde cria um cla",
+        "resposta": "Você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D"
+      },
+      {
+        "frase": "onde cria cla",
+        "resposta": "Você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D"
+      },
+      {
+        "frase": "posso cria cla",
+        "resposta": "Simmmm <3 <3 você deve ir até o canal: <#1367574083327230032> seguir o modelo descrito no canal, e aguardar a ativação e configuração do seu clã :D"
+      }
     ]
   }
 }
