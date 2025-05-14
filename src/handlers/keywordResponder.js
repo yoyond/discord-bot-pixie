@@ -1,21 +1,26 @@
+const { findBestMatch, refreshLearnedData } = require('../utils/responseMatcher');
 
-const fs = require('fs');
-const learnedPath = './src/data/learned.json';
+let lastResponseTime = 0;
+const RESPONSE_COOLDOWN = 3000;
 
-module.exports = (message) => {
+module.exports = async (message, client) => {
   if (message.author.bot) return;
-  if (!fs.existsSync(learnedPath)) return;
+  if (Date.now() - lastResponseTime < RESPONSE_COOLDOWN) return;
 
-  const { categorias } = JSON.parse(fs.readFileSync(learnedPath));
-  const text = message.content.toLowerCase();
-
-  for (const cat of Object.keys(categorias)) {
-    for (const entry of categorias[cat]) {
-      if (text.includes(entry.frase.toLowerCase())) {
-        return message.reply({ content: entry.resposta });
-      }
-    }
+  // Verifica se é um comando de atualização 
+  if (message.content === '!atualizar' && message.member.permissions.has('ADMINISTRATOR')) {
+    refreshLearnedData();
+    await message.reply('✅ Banco de dados de respostas atualizado!');
+    return;
   }
 
-  // Sem correspondência: permanece em silêncio (nenhuma DM nem reply público)
+  const match = findBestMatch(message.content);
+  if (match) {
+    try {
+      await message.reply(match.answer);
+      lastResponseTime = Date.now();
+    } catch (error) {
+      console.error('Error replying to message:', error);
+    }
+  }
 };
