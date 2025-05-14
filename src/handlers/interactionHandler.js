@@ -1,38 +1,56 @@
-const fs = require('fs');
-const learnedPath = './src/data/learned.json';
-
 module.exports = async (interaction, client) => {
-  // Slash commands
-  if (interaction.isChatInputCommand()) {
-    const cmd = client.commands.get(interaction.commandName);
-    if (!cmd) return;
-    try { await cmd.execute(interaction); }
-    catch (err) {
-      console.error(err);
-      return interaction.reply({ content: '❌ Erro ao executar.', ephemeral: true });
+  try {
+    
+    if (interaction.isChatInputCommand()) {
+      const command = client.commands.get(interaction.commandName);
+      if (!command) return;
+
+      await command.execute(interaction);
     }
-  }
 
-  // Modal submit para /aprovar
-  if (interaction.isModalSubmit() && interaction.customId === 'aprovarModal') {
-    const { frase, resposta, sugest } = client.tempAprData.get(interaction.user.id) || {};
-    const categoriaInput = interaction.fields.getTextInputValue('categoriaInput').trim().toLowerCase();
-    const categoria = (categoriaInput === 'sim' && sugest) ? sugest : categoriaInput;
+    
+    if (interaction.isModalSubmit()) {
+      if (interaction.customId === 'aprovarModal') {
+        const input = interaction.fields.getTextInputValue('categoriaInput');
+        const temp = client.tempAprData.get(interaction.user.id);
+        if (!temp) return interaction.reply({ content: '❌ Dados temporários não encontrados.', ephemeral: true });
 
-    // Carrega ou inicializa learned.json
-    let data = { categorias: {} };
-    if (fs.existsSync(learnedPath)) {
-      data = JSON.parse(fs.readFileSync(learnedPath));
+        const fs = require('fs');
+        const learnedPath = './src/data/learned.json';
+
+        
+        let data = { categorias: {} };
+        if (fs.existsSync(learnedPath)) {
+          data = JSON.parse(fs.readFileSync(learnedPath));
+        }
+
+        const categoriaFinal = (input.toLowerCase() === 'sim' && temp.sugest)
+          ? temp.sugest
+          : input.toLowerCase();
+
+        if (!data.categorias[categoriaFinal]) {
+          data.categorias[categoriaFinal] = [];
+        }
+
+        data.categorias[categoriaFinal].push({
+          frase: temp.frase,
+          resposta: temp.resposta
+        });
+
+        fs.writeFileSync(learnedPath, JSON.stringify(data, null, 2));
+
+        await interaction.reply({
+          content: `✅ Frase aprovada na categoria \`${categoriaFinal}\`!`,
+          ephemeral: true
+        });
+      }
     }
-    if (!data.categorias[categoria]) data.categorias[categoria] = [];
-    data.categorias[categoria].push({ frase, resposta });
-    fs.writeFileSync(learnedPath, JSON.stringify(data, null, 2));
-
-    // Limpa o temp store e responde
-    client.tempAprData.delete(interaction.user.id);
-    return interaction.reply({
-      content: `✅ Frase adicionada à categoria **${categoria}**!`,
-      ephemeral: true
-    });
+  } catch (err) {
+    console.error(err);
+    if (interaction.replied || interaction.deferred) {
+      await interaction.followUp({ content: '❌ Ocorreu um erro ao processar sua interação.', ephemeral: true });
+    } else {
+      await interaction.reply({ content: '❌ Ocorreu um erro ao processar sua interação.', ephemeral: true });
+    }
   }
 };
