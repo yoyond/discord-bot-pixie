@@ -1,57 +1,71 @@
-const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  ActionRowBuilder
-} = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
-const suggestCategory = require('../utils/suggestCategory');
+const path = require('path');
+const suggestCategory = require('../utils/suggestCategory'); // função aprimorada
+
+const filePath = path.join(__dirname, '../data/learned.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('aprovar')
-    .setDescription('Aprova uma nova frase para o bot responder')
-    .addStringOption(opt =>
-      opt.setName('frase')
-         .setDescription('Frase que o bot deve reconhecer')
-         .setRequired(true))
-    .addStringOption(opt =>
-      opt.setName('resposta')
-         .setDescription('Resposta que o bot deve dar')
-         .setRequired(true))
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDescription('Aprova uma nova frase e resposta para o bot.')
+    .addStringOption(option =>
+      option.setName('frase')
+        .setDescription('Frase que o bot deve reconhecer')
+        .setRequired(true))
+    .addStringOption(option =>
+      option.setName('resposta')
+        .setDescription('Resposta que o bot deve dar')
+        .setRequired(true))
+    .addStringOption(option =>
+      option.setName('categoria')
+        .setDescription('Categoria da frase')
+        .setAutocomplete(true) // Habilita sugestões
+        .setRequired(false)
+    ),
+
+  async autocomplete(interaction) {
+    const focusedValue = interaction.options.getFocused();
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(raw);
+
+    const categorias = Object.keys(data.categorias || {});
+    const filtered = categorias.filter(c => c.startsWith(focusedValue));
+    await interaction.respond(
+      filtered.map(c => ({ name: c, value: c }))
+    );
+  },
 
   async execute(interaction) {
     const frase = interaction.options.getString('frase');
     const resposta = interaction.options.getString('resposta');
-    const learnedPath = './src/data/learned.json';
+    let categoria = interaction.options.getString('categoria');
 
-    // Carrega dados existentes
-    let data = { categorias: {} };
-    if (fs.existsSync(learnedPath)) {
-      data = JSON.parse(fs.readFileSync(learnedPath));
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(raw);
+
+    if (!categoria) {
+      // Sugere automaticamente
+      categoria = suggestCategory(frase, data.categorias);
     }
 
-    // Gera sugestão de categoria
-    const sugest = suggestCategory(frase, data.categorias);
+    if (!categoria) {
+      return await interaction.reply({
+        content: `❌ Não consegui sugerir uma categoria. Use o campo "categoria" manualmente.`,
+        ephemeral: true
+      });
+    }
 
-    // Guarda temporariamente no client (para recuperar no ModalSubmit)
-    interaction.client.tempAprData.set(interaction.user.id, { frase, resposta, sugest });
+    if (!data.categorias[categoria]) {
+      data.categorias[categoria] = [];
+    }
 
-    // Cria e exibe um Modal para o usuário confirmar/definir categoria
-    const modal = new ModalBuilder()
-      .setCustomId('aprovarModal')
-      .setTitle('Aprovar nova frase');
+    data.categorias[categoria].push({ frase, resposta });
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 
-    const input = new TextInputBuilder()
-      .setCustomId('categoriaInput')
-      .setLabel(`Sugestão: ${sugest || 'nenhuma'}. Digite "sim" para aceitar ou digite a categoria`)
-      .setStyle(TextInputStyle.Short)
-      .setRequired(true);
-
-    modal.addComponents(new ActionRowBuilder().addComponents(input));
-    await interaction.showModal(modal);
+    await interaction.reply({
+      content: `✅ Frase aprovada e adicionada à categoria \`${categoria}\`.`,
+      ephemeral: true
+    });
   }
 };

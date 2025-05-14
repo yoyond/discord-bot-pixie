@@ -46,11 +46,14 @@ module.exports = async (interaction, client) => {
       }
     }
   } catch (err) {
-    console.error(err);
+  console.error(err);
+  try {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({ content: '❌ Ocorreu um erro ao processar sua interação.', ephemeral: true });
     } else {
       await interaction.reply({ content: '❌ Ocorreu um erro ao processar sua interação.', ephemeral: true });
     }
+  } catch (e) {
+    console.error('❌ Erro ao enviar resposta de erro:', e);
   }
-};
+  }}
