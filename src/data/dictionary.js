@@ -1,5 +1,5 @@
 module.exports = {
-    
+
   "entrada_no_servidor": [
     {
       "question": "como faço para entrar no servidor?",
@@ -28,7 +28,14 @@ module.exports = {
       "question": "porta do servidor",
       "answer": "A porta é: <#1365853580929794058>🔄",
       "author": "Sistema",
-      "context": ["canal_membros"]
+      "context": ["canal_membros"],
+       "aliases": [
+        "qual a porta do servidor?",
+        "onde vejo a porta",
+        "qual é a porta do server?",
+        "não achei a porta do server",
+        "manda a porta do server pixie"
+      ]
     }
   ],
   "whitelist": [
@@ -39,7 +46,7 @@ module.exports = {
     },
     {
       "question": "já fiz a wl",
-      "answer": "Sua solicitação está sendo processada em <#1365842315201220708>! Agradecemos a paciência 💙",
+      "answer": "Pronto! Sua solicitação está sendo processada em <#1365842315201220708>! Agradecemos a paciência 💙",
       "author": "Sistema",
       "aliases": ["wl", "wt", "list", "white"]
     },
@@ -60,17 +67,27 @@ module.exports = {
       ]
     }
   ],
+
   "interacao_social": [
     {
       "question": "bom dia pixie",
       "answer": "Bom dia! ☀️ Como posso te ajudar hoje? Se precisar do IP ou whitelist, é só me perguntar!",
       "author": "Sistema",
       "frequency": 0.3,
-      "context": ["canal_membros"]
+      "context": ["canal_membros"],
+       "aliases": [
+        "bom dia pixiee",
+        "bomm diaa",
+      ]
     },
     {
       "question": "pixie ajuda",
       "answer": "Claro! Posso te ajudar com:\n• Acesso ao servidor: <#1365853461442465792>\n• Whitelist: <#1365842315201220708>\n• Dúvidas gerais: <#1365828284490977321>",
+      "author": "Sistema"
+    },
+    {
+      "question": "sou novo",
+      "answer": "Bem vindo! Meu nome é pixie assistente virtual do Cyber Pixel :D Você pode me perguntar 'onde esta o ip' ou 'como faz a whitelist'",
       "author": "Sistema"
     }
   ],
