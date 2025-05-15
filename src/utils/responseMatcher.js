@@ -3,13 +3,21 @@ const path = require('path');
 const fs = require('fs');
 
 const learnedPath = path.join(process.cwd(), 'learned.json');
+const defaultResponses = require('./data/dictionary');
 
 function loadLearnedData() {
   try {
-    return JSON.parse(fs.readFileSync(learnedPath));
+    const customData = fs.existsSync(learnedPath) ? 
+      JSON.parse(fs.readFileSync(learnedPath, 'utf-8')) : {};
+    
+   
+    return {
+      ...defaultResponses,
+      ...customData
+    };
   } catch (error) {
-    console.error('Erro ao carregar learned.json:', error);
-    return {};
+    console.error('Erro ao carregar dados:', error);
+    return defaultResponses;
   }
 }
 
@@ -100,9 +108,11 @@ const fuseOptions = {
   includeScore: true,
   threshold: 0.4,
   minMatchCharLength: 3,
-  keys: ['question'],
+  keys: ['question', 'normalizedQuestion', 'aliases'],
   ignoreLocation: true,
-  distance: 100
+  distance: 100,
+  shouldSort: true,
+  findAllMatches: true
 };
 
 let fuse;
@@ -110,39 +120,48 @@ let questions = [];
 
 function refreshLearnedData() {
   const learnedData = loadLearnedData();
+  
   questions = Object.values(learnedData).flatMap(category => 
-    category.map(item => ({
-      ...item,
-      normalizedQuestion: normalizeInput(item.question)
-    }))
+    Array.isArray(category) ? 
+      category.map(item => ({
+        ...item,
+        normalizedQuestion: item.question ? normalizeInput(item.question) : '',
+        aliases: item.aliases ? item.aliases.map(alias => normalizeInput(alias)) : []
+      })) : 
+      []
   );
+  
   fuse = new Fuse(questions, fuseOptions);
 }
 
 function findBestMatch(message) {
+  if (!message || typeof message !== 'string') return null;
+  
   const normalized = normalizeInput(message);
+  
+  
+  const exactMatch = questions.find(item => 
+    item.normalizedQuestion === normalized
+  );
   
  
   const aliasMatch = questions.find(item => 
-    item.aliases?.some(alias => 
-      normalizeInput(alias) === normalized
-    )
+    item.aliases && item.aliases.includes(normalized)
   );
+  
 
-
-  const mainMatch = questions.find(item => 
-    normalizeInput(item.question) === normalized
-  );
-
+  const fuzzyResults = fuse.search(normalized);
+  const fuzzyMatch = fuzzyResults.length > 0 ? fuzzyResults[0].item : null;
+  
  
-  const fuzzyMatch = fuse.search(normalized)[0]?.item;
-
-  return aliasMatch || mainMatch || fuzzyMatch;
+  return aliasMatch || exactMatch || fuzzyMatch;
 }
 
 
 refreshLearnedData();
 
-module.exports = { findBestMatch, refreshLearnedData };
-
-
+module.exports = { 
+  findBestMatch, 
+  refreshLearnedData,
+  normalizeInput 
+};
