@@ -3,21 +3,20 @@ const path = require('path');
 const fs = require('fs');
 
 const learnedPath = path.join(process.cwd(), 'learned.json');
-const defaultResponses = require('./data/dictionary');
+const defaultResponses = require('../data/dictionary'); // Adicionado esta linha
 
 function loadLearnedData() {
   try {
     const customData = fs.existsSync(learnedPath) ? 
-      JSON.parse(fs.readFileSync(learnedPath, 'utf-8')) : {};
-    
-   
-    return {
+     JSON.parse(fs.readFileSync(learnedPath)) : {};
+
+         return {
       ...defaultResponses,
       ...customData
     };
   } catch (error) {
-    console.error('Erro ao carregar dados:', error);
-    return defaultResponses;
+    console.error('Erro ao carregar learned.json:', error);
+    return defaultResponses; // Retorna apenas as padrões em caso de erro
   }
 }
 
@@ -93,7 +92,7 @@ function normalizeInput(text) {
   "sla": "não sei", "slá": "não sei", "sei lá": "não sei", "seila": "não sei", "nsei": "não sei"
 };
 
-  return text
+ return text
     .toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/[.,\/#!$%^&*;:{}=\-_`~()?]/g, '')
@@ -108,11 +107,9 @@ const fuseOptions = {
   includeScore: true,
   threshold: 0.4,
   minMatchCharLength: 3,
-  keys: ['question', 'normalizedQuestion', 'aliases'],
+  keys: ['question'],
   ignoreLocation: true,
-  distance: 100,
-  shouldSort: true,
-  findAllMatches: true
+  distance: 100
 };
 
 let fuse;
@@ -120,48 +117,37 @@ let questions = [];
 
 function refreshLearnedData() {
   const learnedData = loadLearnedData();
-  
   questions = Object.values(learnedData).flatMap(category => 
-    Array.isArray(category) ? 
-      category.map(item => ({
-        ...item,
-        normalizedQuestion: item.question ? normalizeInput(item.question) : '',
-        aliases: item.aliases ? item.aliases.map(alias => normalizeInput(alias)) : []
-      })) : 
-      []
+    category.map(item => ({
+      ...item,
+      normalizedQuestion: normalizeInput(item.question)
+    }))
   );
-  
   fuse = new Fuse(questions, fuseOptions);
 }
 
 function findBestMatch(message) {
-  if (!message || typeof message !== 'string') return null;
-  
   const normalized = normalizeInput(message);
-  
-  
-  const exactMatch = questions.find(item => 
-    item.normalizedQuestion === normalized
-  );
   
  
   const aliasMatch = questions.find(item => 
-    item.aliases && item.aliases.includes(normalized)
+    item.aliases?.some(alias => 
+      normalizeInput(alias) === normalized
+    )
   );
-  
 
-  const fuzzyResults = fuse.search(normalized);
-  const fuzzyMatch = fuzzyResults.length > 0 ? fuzzyResults[0].item : null;
-  
+
+  const mainMatch = questions.find(item => 
+    normalizeInput(item.question) === normalized
+  );
+
  
-  return aliasMatch || exactMatch || fuzzyMatch;
+  const fuzzyMatch = fuse.search(normalized)[0]?.item;
+
+  return aliasMatch || mainMatch || fuzzyMatch;
 }
 
 
 refreshLearnedData();
 
-module.exports = { 
-  findBestMatch, 
-  refreshLearnedData,
-  normalizeInput 
-};
+module.exports = { findBestMatch, refreshLearnedData };
