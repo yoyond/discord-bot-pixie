@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
+const fileManager = require('./fileManager');
 const fs = require('fs');
 const path = require('path');
+
 
 const learnedPath = path.join(process.cwd(), 'learned.json');
 console.log('Caminho do learned.json:', learnedPath); // Log do caminho
