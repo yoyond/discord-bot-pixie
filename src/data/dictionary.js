@@ -70,7 +70,7 @@ module.exports = {
 
   "interacao_social": [
     {
-      "question": "bom dia pixie",
+      "question": "bom dia",
       "answer": "Bom dia! ☀️ Como posso te ajudar hoje? Se precisar do IP ou whitelist, é só me perguntar!",
       "author": "Sistema",
       "frequency": 0.3,
