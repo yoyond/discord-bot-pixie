@@ -4,7 +4,6 @@ const path = require('path');
 
 const learnedPath = path.join(process.cwd(), 'learned.json');
 
-// Garante que o arquivo existe com estrutura válida
 function ensureLearnedFile() {
     if (!fs.existsSync(learnedPath)) {
         fs.writeFileSync(learnedPath, JSON.stringify({}, null, 2));
@@ -29,9 +28,11 @@ module.exports = {
                 .setRequired(false)),
 
     async execute(interaction) {
+        // Verifica se já foi respondido
+        if (interaction.replied) return;
+
         ensureLearnedFile();
 
-        // Carrega os novos dados e frases
         const rawData = fs.readFileSync(learnedPath, 'utf8');
         const learnedData = JSON.parse(rawData);
 
@@ -39,7 +40,6 @@ module.exports = {
         const answer = interaction.options.getString('resposta');
         let category = interaction.options.getString('categoria');
 
-        // logica
         if (!category) {
             const categories = Object.keys(learnedData);
             if (categories.length === 0) {
@@ -54,7 +54,6 @@ module.exports = {
             });
         }
 
-    
         category = category.toLowerCase().trim().replace(/[^\w\s-]/g, '');
 
         if (!learnedData[category]) {
@@ -68,19 +67,26 @@ module.exports = {
             author: interaction.user.tag
         });
 
-        // Persistência com verificação
         try {
             fs.writeFileSync(learnedPath, JSON.stringify(learnedData, null, 2));
-            
-            // Verificação pós-escrita
             const verifyData = fs.readFileSync(learnedPath, 'utf8');
-            JSON.parse(verifyData); // Teste de parse
+            JSON.parse(verifyData);
             
             console.log(`✅ [${new Date().toISOString()}] Entrada salva em ${learnedPath}`);
-            await interaction.reply(`✔️ Resposta adicionada em "${category}"!`);
+            
+            // Só responde se não for um modal
+            if (!interaction.isModalSubmit()) {
+                await interaction.reply({
+                    content: `✔️ Resposta adicionada em "${category}"!`,
+                    ephemeral: true
+                });
+            }
         } catch (error) {
             console.error('❌ ERRO GRAVE AO SALVAR:', error);
-            await interaction.reply('⚠️ Erro ao salvar! Verifique os logs do servidor.');
+            await interaction.reply({
+                content: '⚠️ Erro ao salvar! Verifique os logs do servidor.',
+                ephemeral: true
+            });
         }
     }
 };

@@ -6,7 +6,15 @@ module.exports = async (interaction, client) => {
     if (interaction.isChatInputCommand()) {
       const command = client.commands.get(interaction.commandName);
       if (!command) return;
-      await command.execute(interaction);
+       if (!interaction.replied) {
+        await command.execute(interaction);
+       }
+    }
+
+      if (interaction.isModalSubmit()) {
+      if (interaction.customId === 'aprovarModal') {
+
+      }
     }
 
     if (interaction.isModalSubmit()) {
