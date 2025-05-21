@@ -1,39 +1,22 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('fs');
-const path = require('path'); // Adicionado
 require('dotenv').config();
 
-// Configuração inicial mais robusta
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildMembers, // Adicionado para melhor suporte a comandos de admin
+    GatewayIntentBits.GuildMembers,
   ],
-  partials: [], // Adicione se precisar de suporte a mensagens parciais
+  partials: [],
 });
 
-// Inicialização de estruturas de dados
+// Estruturas internas
 client.tempAprData = new Map();
 client.commands = new Collection();
-client.learnedData = {}; // Adicionado para cache opcional
 
-// Verificação do arquivo learned.json na inicialização
-const learnedPath = path.join(process.cwd(), 'learned.json');
-try {
-  if (!fs.existsSync(learnedPath)) {
-    fs.writeFileSync(learnedPath, JSON.stringify({}, null, 2));
-    console.log('Arquivo learned.json criado em:', learnedPath);
-  }
-  client.learnedData = require(learnedPath);
-  console.log(`✅ Learned.json carregado com ${Object.keys(client.learnedData).length} categorias`);
-} catch (error) {
-  console.error('❌ Erro ao carregar learned.json:', error);
-  process.exit(1); // Encerra se não conseguir carregar o arquivo essencial
-}
 
-// Carregamento dinâmico de comandos com tratamento de erros
 const loadCommands = async () => {
   const commandFiles = fs.readdirSync('./src/commands')
     .filter(file => file.endsWith('.js'));
@@ -51,7 +34,7 @@ const loadCommands = async () => {
   console.log(`📦 ${client.commands.size} comandos carregados`);
 };
 
-// Handlers com verificação de carregamento
+// Handlers de eventos
 const loadHandlers = () => {
   try {
     client.on('interactionCreate', interaction => 
@@ -59,21 +42,21 @@ const loadHandlers = () => {
     
     client.on('messageCreate', message => 
       require('./src/handlers/keywordResponder')(message, client));
-    
+
     console.log('🔄 Handlers carregados com sucesso');
   } catch (error) {
     console.error('❌ Erro ao carregar handlers:', error);
   }
 };
 
-// Evento ready com informações úteis
+// Evento on ready
 client.once('ready', () => {
   console.log(`🤖 Bot online como ${client.user.tag}`);
   console.log(`📊 Servidores: ${client.guilds.cache.size}`);
   console.log(`👥 Usuários: ${client.users.cache.size}`);
 });
 
-// Inicialização segura
+
 const initBot = async () => {
   try {
     await loadCommands();
@@ -85,7 +68,7 @@ const initBot = async () => {
   }
 };
 
-// Hot reload para desenvolvimento
+// Hot reload em dev
 if (process.env.NODE_ENV !== 'production') {
   const chokidar = require('chokidar');
   const watcher = chokidar.watch('./src');

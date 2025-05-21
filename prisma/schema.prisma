@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model LearnedPhrase {
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String
+  category  String
+  author    String
+  timestamp DateTime @default(now())
+}

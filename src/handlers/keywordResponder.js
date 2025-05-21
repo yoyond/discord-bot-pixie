@@ -1,26 +1,52 @@
-const { findBestMatch, refreshLearnedData } = require('../utils/responseMatcher');
+const { PrismaClient } = require('@prisma/client');
+const Fuse = require('fuse.js');
+
+const prisma = new PrismaClient();
 
 let lastResponseTime = 0;
-const RESPONSE_COOLDOWN = 3000;
+const RESPONSE_COOLDOWN = 3000; // 3 segundos
+let cachedData = [];
+let fuse = null;
+
+// Função para carregar/atualizar os dados do banco
+async function loadLearnedData() {
+  cachedData = await prisma.learnedPhrase.findMany();
+  fuse = new Fuse(cachedData, {
+    keys: ['question'],
+    threshold: 0.3, // Quanto menor, mais exata a busca
+  });
+}
 
 module.exports = async (message, client) => {
   if (message.author.bot) return;
-  if (Date.now() - lastResponseTime < RESPONSE_COOLDOWN) return;
 
-  // Verifica se é um comando de atualização 
-  if (message.content === '!atualizar' && message.member.permissions.has('ADMINISTRATOR')) {
-    refreshLearnedData();
-    await message.reply('✅ Banco de dados de respostas atualizado!');
+  const now = Date.now();
+  if (now - lastResponseTime < RESPONSE_COOLDOWN) return;
+
+  // Recarregar banco manualmente
+  if (
+    message.content === '!atualizar' &&
+    message.member?.permissions?.has?.('Administrator')
+  ) {
+    await loadLearnedData();
+    await message.reply('✅ Banco de dados atualizado com sucesso!');
     return;
   }
 
-  const match = findBestMatch(message.content);
-  if (match) {
+  // Garante que os dados estão carregados
+  if (!fuse || cachedData.length === 0) {
+    await loadLearnedData();
+  }
+
+  const results = fuse.search(message.content);
+
+  if (results.length > 0) {
+    const match = results[0].item;
     try {
       await message.reply(match.answer);
-      lastResponseTime = Date.now();
+      lastResponseTime = now;
     } catch (error) {
-      console.error('Error replying to message:', error);
+      console.error('❌ Erro ao responder mensagem:', error);
     }
   }
 };
