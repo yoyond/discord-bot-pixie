@@ -9,7 +9,7 @@ module.exports = {
       "aliases": [
         "mano como faço pra entrar no serve",
         "como entro no server?",
-        "nao consigo entrar no server" ]
+        "nao consigo entrar no server", ]
     },
     {
       "question": "onde está o ip?",
@@ -23,20 +23,8 @@ module.exports = {
         "não achei o ip",
         "manda o ip aí"
       ]
-    },
-    {
-      "question": "porta do servidor",
-      "answer": "A porta é: <#1365853580929794058>🔄",
-      "author": "Sistema",
-      "context": ["canal_membros"],
-       "aliases": [
-        "qual a porta do servidor?",
-        "onde vejo a porta",
-        "qual é a porta do server?",
-        "não achei a porta do server",
-        "manda a porta do server pixie"
-      ]
     }
+   
   ],
   "whitelist": [
     {

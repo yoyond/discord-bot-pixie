@@ -38,6 +38,19 @@ module.exports = async (message, client) => {
     await loadLearnedData();
   }
 
+  const normalized = normalizeInput(message.content);
+
+  const exactMatch = cachedData.find(item =>
+  normalizeInput(item.question) === normalized
+);
+
+if (exactMatch) {
+  await message.reply(exactMatch.answer);
+  lastResponseTime = now;
+  return;
+}
+  if (message.content.trim().split(/\s+/).length < 2) return;
+
   const results = fuse.search(message.content);
 
   if (results.length > 0) {
