@@ -23,6 +23,16 @@ module.exports = {
         "não achei o ip",
         "manda o ip aí"
       ]
+    },
+     {
+      "question": "como faço um cla",
+      "answer": "Para se juntar a um clã acesse: <#1370449570500317264> Para registrar um novo clã acesse: <#1367574083327230032> e você pode acompanhar o registro aqui: <#1367567092370378824>",
+      "author": "Sistema"
+    },
+    {
+      "question": "algum cla tem vaga?",
+      "answer": "Provavelmente sim!, você pode checar isso em: <#1370449570500317264> Boa sorte! 🍀 ",
+      "author": "Sistema"
     }
    
   ],
