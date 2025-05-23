@@ -1,20 +1,35 @@
 const { PrismaClient } = require('@prisma/client');
 const Fuse = require('fuse.js');
+const dictionary = require('../data/dictionary');
 
 const prisma = new PrismaClient();
 
 let lastResponseTime = 0;
-const RESPONSE_COOLDOWN = 3000; // 3 segundos
+const RESPONSE_COOLDOWN = 3000;
 let cachedData = [];
 let fuse = null;
 
-// Função para carregar/atualizar os dados do banco
 async function loadLearnedData() {
-  cachedData = await prisma.learnedPhrase.findMany();
+  // Carrega dados do Prisma e do dictionary.js
+  const prismaData = await prisma.learnedPhrase.findMany();
+  const dictionaryData = Object.entries(dictionary).flatMap(([category, items]) => 
+    items.map(item => ({
+      question: item.question,
+      answer: item.answer,
+      category,
+      author: item.author || 'Sistema'
+    }))
+  );
+
+  cachedData = [...prismaData, ...dictionaryData];
   fuse = new Fuse(cachedData, {
     keys: ['question'],
-    threshold: 0.3, // Quanto menor, mais exata a busca
+    threshold: 0.3,
   });
+}
+
+function normalizeInput(str) {
+  return str.toLowerCase().replace(/[^\w\s]/g, '');
 }
 
 module.exports = async (message, client) => {
@@ -23,37 +38,36 @@ module.exports = async (message, client) => {
   const now = Date.now();
   if (now - lastResponseTime < RESPONSE_COOLDOWN) return;
 
-  // Recarregar banco manualmente
-  if (
-    message.content === '!atualizar' &&
-    message.member?.permissions?.has?.('Administrator')
-  ) {
+
+  if (message.content === '!atualizar' && message.member?.permissions?.has?.('Administrator')) {
     await loadLearnedData();
     await message.reply('✅ Banco de dados atualizado com sucesso!');
     return;
   }
 
-  // Garante que os dados estão carregados
+
   if (!fuse || cachedData.length === 0) {
     await loadLearnedData();
   }
 
   const normalized = normalizeInput(message.content);
 
-  const exactMatch = cachedData.find(item =>
-  normalizeInput(item.question) === normalized
-);
 
-if (exactMatch) {
-  await message.reply(exactMatch.answer);
-  lastResponseTime = now;
-  return;
-}
   if (message.content.trim().split(/\s+/).length < 2) return;
 
-  const results = fuse.search(message.content);
+  const exactMatch = cachedData.find(item =>
+    normalizeInput(item.question) === normalized ||
+    (item.aliases && item.aliases.some(alias => normalizeInput(alias) === normalized))
+  );
 
-  if (results.length > 0) {
+  if (exactMatch) {
+    await message.reply(exactMatch.answer);
+    lastResponseTime = now;
+    return;
+  }
+
+  const results = fuse.search(message.content);
+  if (results.length > 0 && results[0].score < 0.4) {
     const match = results[0].item;
     try {
       await message.reply(match.answer);
